@@ -3,8 +3,10 @@ const cameraEl = document.getElementById('camera');
 const canvasEl = document.getElementById('canvas');
 const resultsEl = document.getElementById('results');
 const poseColours = [];
+var phaser;
 var osc;
 var soundIsStarted = false;
+var oldFrequence =440;
 
 document.getElementById('btnFreeze').addEventListener('click', evt => {
   if (cameraEl.paused) {
@@ -60,7 +62,7 @@ function processPoses(poses) {
   //synth.triggerAttackRelease('C4', '1n');
   ////
   startSound();
-  console.log("- - -- - - start sound - --- -- -- -");
+  //console.log("- - -- - - start sound - --- -- -- -");
   ////
 
   // For debug purposes, draw points
@@ -82,14 +84,27 @@ function processPoses(poses) {
     
     const leftWrist = getKeypointPos(poses, 'leftWrist');
     const rightWrist = getKeypointPos(poses, 'rightWrist');
-    if (leftWrist != null && rightWrist != null && osc != null) {
+    if (leftWrist != null && rightWrist != null && osc != null && pointsAreInFrame(leftWrist,rightWrist)) {
       const distance = Math.floor(Math.abs(leftWrist.x - rightWrist.x));
-
       var c = canvasEl.getContext('2d');
       c.fillStyle = 'black';
       c.fillText('Distance between arms: ' + distance, 100, 10);
-      osc.frequency.value = distance;
+      frequence = distance;
+      osc.frequency.value = frequence;
+      oldFrequence = frequence;
+
+      phaser.frequency.value = leftWrist.y;
+      phaser.baseFrequency.value = rightWrist.y;  
     }
+
+    if ( pointsAreInFrame(leftWrist,rightWrist) ) {
+      console.log("IN");
+      osc.volume.value = 100;
+    } else {
+      console.log("OUT");
+      osc.volume.value = -100;
+    }
+    console.log( "left " + coord2string(leftWrist) + "  right " + coord2string(rightWrist) + ')' );
   }
 
   // Repeat, if not paused
@@ -98,6 +113,21 @@ function processPoses(poses) {
     return;
   }
   window.requestAnimationFrame(process);
+}
+
+function coord2string( point ) {
+  return '(' + Math.floor(point.x) + ',' + Math.floor(point.y) + ')';
+}
+
+function pointsAreInFrame(point1,point2) {
+  var value =   ( 0 <= point1.x && point1.x <= 640 ) &&
+    ( 0 <= point1.y && point1.y <= 480 ) &&
+    ( 0 <= point2.x && point2.x <= 640 ) &&
+    ( 0 <= point2.y && point2.y <= 480 );
+  
+  //console.log( "Value = " + value + " left " + coord2string(point1) + "  right " + coord2string(point2) + ')' );
+  
+  return value;
 }
 
 // Helper function to get a named keypoint position
@@ -202,7 +232,14 @@ function startCamera() {
 
 function startSound() {
   if (!soundIsStarted) {
-    osc = new Tone.Oscillator(110, "sine").toMaster().start();
+    phaser = new Tone.Phaser({
+      "frequency" : 20,
+      "octaves" : 3,
+      "baseFrequency" : 440
+    }).toMaster();
+    //osc = new Tone.FatOscillator("Ab3", "square", 80).connect(phaser).start();
+    //osc = new Tone.FatOscillator(440, "square", 80).toMaster().start();
+    osc = new Tone.Oscillator(440, "sine").toMaster().start();
     soundIsStarted = true;
   }
 
