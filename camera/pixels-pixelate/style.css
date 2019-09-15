@@ -1,0 +1,11 @@
+html,body{
+  margin: 250;
+  padding: 250;
+
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: darkslategray;
+}
