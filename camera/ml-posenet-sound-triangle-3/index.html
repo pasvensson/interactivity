@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ml-posenet</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel='stylesheet' href='/base.css'>
+  <link rel='stylesheet' href='style.css'>
+</head>
+
+<!-- <body onload="startSound()">
+-->
+<body>
+  <!-- Video element for showing camera stream -->
+  <button id="btnFreeze">Freeze</button>
+  <button id="btnStart">Start</button>
+<!--
+    <div class="slidecontainer">
+    Freq 1 <input type="range" min="20" max="1000" value="20" class="slider" id="triangle1">
+    Freq 2<input type="range" min="20" max="1000" value="20" class="slider" id="triangle2">
+    Filter freq
+    <input type="range" min="0" max="100" value="20" class="slider" id="noise">
+  </div>
+-->
+  
+  <video class="hidden" autoplay="true" id="camera"></video>
+
+  <script src="lib/tfjs.js"></script>
+  <script src="lib/posenet.js"></script>
+  <script src="lib/Tone.js"></script>
+  <!-- -->
+   
+  <canvas id="canvas"></canvas>
+
+  <script defer src="script.js"></script>
+</body>
+
+</html>
