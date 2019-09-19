@@ -7,13 +7,13 @@ const offscreenCanvasEl = document.getElementById('offscreenCanvas');
 const resultsEl = document.getElementById('results');
 const poseColours = [];
 
-document.getElementById('btnFreeze').addEventListener('click', evt => {
-  if (cameraEl.paused) {
-    cameraEl.play();
-  } else {
-    cameraEl.pause();
-  }
-});
+// document.getElementById('btnFreeze').addEventListener('click', evt => {
+//   if (cameraEl.paused) {
+//     cameraEl.play();
+//   } else {
+//     cameraEl.pause();
+//   }
+// });
 
 console.log('Loading posenet model')
 
@@ -128,9 +128,9 @@ function drawPose(index, pose, c) {
   const colour = poseColours[index];
 
   // Draw prediction info
-  c.textBaseline = 'top';
+  //c.textBaseline = 'top';
   c.fillStyle = colour;
-  c.fillText(Math.floor(pose.score * 100) + '%', 10, (index * 20) + 10);
+  //c.fillText(Math.floor(pose.score * 100) + '%', 10, (index * 20) + 10);
 
   // Draw each pose part
   pose.keypoints.forEach(kp => {
@@ -138,7 +138,7 @@ function drawPose(index, pose, c) {
 
       // Draw a dot for each keypoint
       c.beginPath();
-      c.arc(kp.position.x, kp.position.y, 5, 0, 2 * Math.PI);
+      c.arc(640 - kp.position.x, 180, 5, 0, 2 * Math.PI);
       c.fill();
 
       // Draw the keypoint's score (not very useful)
