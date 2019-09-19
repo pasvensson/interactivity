@@ -1,0 +1,15 @@
+.hidden {
+  display: none;
+}
+
+#btnFreeze {
+  display: none;
+}
+
+#btnStart{
+  display: none;
+}
+
+#canvas{
+  display: none;
+}
