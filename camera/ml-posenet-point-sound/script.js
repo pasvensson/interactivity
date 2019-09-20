@@ -104,8 +104,8 @@ function processPoses(poses) {
       c.fillStyle = 'black';
       c.fillText('Distance between arms: ' + distance, 100, 10);
        //frequence = distance;
-       pannerR.pan.value = (rightWrist.x/320.0)-1.0;
-       pannerL.pan.value = (rightWrist.x/320.0)-1.0;
+       pannerR.pan.value = -(rightWrist.x/320.0)+1.0;
+       pannerL.pan.value = -(rightWrist.x/320.0)+1.0;
        //triangle1.frequency.value = (leftWrist.x + rightWrist.x) / 10;
        //triangle2.frequency.value = (rightWrist.y + leftWrist.y) / 10;
        //filter.frequency.value = distance + (leftWrist.x + rightWrist.x + rightWrist.y + leftWrist.y ) / 10;
